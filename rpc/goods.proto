@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package goods;
+option go_package="./goods";
+
+
+
+service Goods {
+  rpc     InsGoods(CreateGoods)     returns(CreateGoodsResp); //商品添加
+  rpc     DelGoods(DelGoodsInfo)    returns(emptyResp); //商品删除
+  rpc     UpdGoods(UpdateGoodsInfo) returns(GoodsResp); //改商品
+  rpc     SelGoods(SelectGoodsInfo) returns(SelectGoodsResp); //查询单条商品
+  rpc     Login(LoginRequest)       returns(LoginResponse); //用户登录
+  rpc     SearchGood(SearchRequest) returns(SearchResponse); //查询所有商品
+  rpc     GetGoodsById(SelectByIdReq) returns(SelectByIdResp); //通过id查询信息
+  rpc     DeductStock(DeductStockReq) returns(DeductStockResp); //修改库存
+  rpc     DeductStockRollback(DeductStockReq) returns(DeductStockResp); //修改库存
+
+}
+
+
+message CreateGoods {
+  GoodsResp data = 10;
+}
+
+message CreateGoodsResp{
+  GoodsResp data = 10;
+}
+
+message GoodsResp{
+  string GoodsName  = 1;
+  string GoodsPrice = 2;
+  string GoodsNum = 3;
+  string GoodsRef  = 4;
+  string GoodsId  = 5 ;
+  string GoodsImage = 6;
+}
+
+message DelGoodsInfo{
+  int64 id = 1;
+}
+
+
+message SelectGoodsInfo{
+  int64 id = 1;
+}
+message SelectGoodsResp{
+  GoodsResp data = 1;
+}
+
+
+message UpdateGoodsInfo{
+  GoodsResp data = 10;
+}
+
+message emptyResp{
+
+}
+
+message LoginRequest{
+  string username= 1;
+  string password = 2;
+}
+message LoginResponse{
+  int64 Id = 1;
+  string password = 2;
+}
+
+
+message SearchRequest{
+  string page = 1;
+  string limit = 2;
+}
+message SearchResponse{
+  repeated GoodsResp data =10;
+}
+
+message SelectByIdReq{
+  repeated string id = 10;
+}
+message SelectByIdResp{
+  repeated GoodsResp good = 10;
+}
+
+message GoodsStock{
+   string id = 10;
+   string num = 20;
+}
+
+message DeductStockReq{
+    repeated GoodsStock data =10;
+}
+message DeductStockResp{
+
+}
+
+
+
+
+
+
+
+
+
+
+

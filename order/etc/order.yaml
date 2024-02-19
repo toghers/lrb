@@ -1,0 +1,11 @@
+Name: order.rpc
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: order.rpc
+
+NacInfo:
+  Host: "127.0.0.1"
+  Port: 8848
+  Space: "b1491221-0c78-40a3-9b5d-acb8d4e58e7a"

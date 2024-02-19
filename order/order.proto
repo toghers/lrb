@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package order;
+option go_package="./order";
+
+service Order {
+  rpc CreateOrder(CreateOrderReq) returns(CreateOrderResp);
+  rpc UpdateOrder(UpOrderStatus) returns(UpOrderStatusResp);
+  rpc DelOrder(DeleteRequest) returns(DeleteResponse);
+  rpc UpdateOrders(UpdateRequest) returns(UpdateResponse);
+  rpc SelectOrder(SelectRequest) returns(SelectResponse);
+  rpc CreateOrderRollback(CreateOrderReq) returns(CreateOrderResp);
+}
+
+message CreateOrderReq{
+    OrderInfo data= 10;
+}
+message CreateOrderResp{
+    OrderInfo Msg = 10;
+}
+
+message OrderInfo{
+  int64   Id         = 1;
+  int64   UserId        = 2;
+  string  order_no   = 3;
+  string  price      = 4;
+  int32   status     = 5;
+}
+
+message UpOrderStatus{
+    OrderInfo data =10;
+}
+
+message UpOrderStatusResp{
+    OrderInfo data =10;
+}
+
+message DeleteRequest{
+  OrderInfo data =10;
+}
+
+message DeleteResponse{
+
+}
+
+message UpdateRequest{
+  OrderInfo data =10;
+}
+
+message UpdateResponse{
+  OrderInfo data =10;
+}
+
+message SelectRequest{
+  int64  page =10;
+  int64 limit = 20;
+}
+
+message SelectResponse{
+  repeated OrderInfo data =10;
+}
+
+
+
+
+
+
+
+
+
+
+
+

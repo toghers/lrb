@@ -1,0 +1,168 @@
+type Request {
+	Name string `path:"name,options=you|me"`
+}
+
+type Response {
+	Message string `json:"message"`
+}
+
+type (
+	LoginRequest {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	LoginResponse {
+		Code  int    `json:"code"`
+		Msg   string `json:"msg"`
+		Token string `json:"token"`
+	}
+)
+
+type Goodinfo {
+	GoodsName  string `json:"goodsName,optional"`
+	GoodsPrice string `json:"goodsPrice,optional"`
+	GoodsNum   string `json:"goodsNum,optional"`
+	GoodsRef   string `json:"goodsRef,optional"`
+	GoodsId    string `json:"goodsId,optional"`
+	GoodsImage string `json:"goodsImage,optional"`
+}
+
+//搜所有商品
+type (
+	SearchRequest {
+		Context string `json:"context"`
+		Page    string `json:"page"`
+		Limit   string `json:"limit"`
+	}
+	SearchResponse {
+		Goodinfo []Goodinfo `json:"goodinfo"`
+	}
+)
+
+type (
+	CreateGoodRequest {
+		GoodsOneInfo Goodinfo `json:"goodsOneInfo"`
+	}
+	CreateGoodResponse {
+		GoodsOneInfo Goodinfo `json:"goodsOneInfo"`
+	}
+
+	DelGoodRequest {
+		Goodsid string `json:"goodsid"`
+	}
+	DelGoodResponse {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+
+	UpdateGoodRequest {
+		GoodsOneInfo Goodinfo `json:"goodsOneInfo"`
+	}
+	UpdateGoodResponse {
+		GoodsOneInfo Goodinfo `json:"goodsOneInfo"`
+	}
+)
+//====================订单
+
+type Orderinfo {
+	Id         int     `json:"id,optional"`
+	UserId     int     `json:"userId,optional"`
+	GoodsId    int     `json:"goodsId,optional"`
+	IsStatus   int8    `json:"isStatus,optional"`
+	IsDel      int8    `json:"isDel,optional"`
+	TotalPrice float64 `json:"totalPrice,optional"`
+	DeleteAt   int     `json:"deleteAt,optional"`
+	CreateAt   int     `json:"createAt,optional"`
+	UpdateAt   int     `json:"updateAt,optional"`
+	OrderNo    string  `json:"orderNo,optional"`
+}
+
+type (
+	Goods {
+		GoodsId string `json:"goodsid"`
+		Num     string `json:"num"`
+	}
+
+	CreateOrder {
+		Goods []Goods `json:"goods"`
+	}
+
+	CreateOrderResp {
+		PayUrl string `json:"payUrl"`
+	}
+
+	NotifyRequest {
+	}
+
+	NotifyResponse {
+	}
+
+	DeleteOrder {
+		Data Orderinfo `json:"data"`
+	}
+
+	DeleteOrderResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+
+	UpdateOrder {
+		Data Orderinfo `json:"data"`
+	}
+
+	UpdateOrderResp {
+		Data Orderinfo `json:"data"`
+	}
+
+	SelectOrder {
+		Page  string `json:"page"`
+		Limit string `json:"limit"`
+	}
+
+	SelectOrderResp {
+		Data []Orderinfo `json:"data"`
+	}
+)
+
+service gateway-api {
+	@handler Login
+	post /login (LoginRequest) returns (LoginResponse)
+
+	@handler GatewayHandler
+	get /from/:name(Request) returns (Response)
+
+	@handler Notifys
+	post /notify(NotifyRequest) returns (NotifyResponse)
+
+}
+
+@server (
+	jwt: Auth // 开启 jwt 认证
+)
+
+service gateway-api {
+	@handler SearchAllGoods //搜索所有商品
+	post /search (SearchRequest) returns (SearchResponse)
+
+	@handler InsertGoods //添加商品
+	post /insertgood (CreateGoodRequest) returns (CreateGoodResponse)
+
+	@handler DelGoods //删除商品
+	post /delGood (DelGoodRequest) returns (DelGoodResponse)
+
+	@handler UpdateGoods //修改商品
+	post /Updategood (UpdateGoodRequest) returns (UpdateGoodResponse)
+
+	@handler CreateOr //创建订单
+	post /createorder (CreateOrder) returns (CreateOrderResp)
+
+	@handler DeleteOrder //删除
+	post /DeleteOrder (DeleteOrder) returns (DeleteOrderResp)
+
+	@handler UpdateOrder //修改订单
+	post /UpdateOrder (UpdateOrder) returns (UpdateOrderResp)
+
+	@handler SelectOrder //查找订单
+	post /SelectOrder (SelectOrder) returns (SelectOrderResp)
+
+}
