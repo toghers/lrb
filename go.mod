@@ -1,4 +1,4 @@
-module 2106A-zg6/orderAndGoods/goodsproject
+module github.com/toghers/lrb
 
 go 1.20
 
